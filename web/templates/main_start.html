@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block row_content %}
+<div class="row justify-content-center">
+    <div class="col-8 d-flex justify-content-center mt-2">
+        <table class='table table-sm table-borderless offset-1 g-0'>
+            <thead>
+                <tr>
+                    <th>工作</th>
+                    <th>結果（座號）</th>
+                </tr>
+            </thead>
+            <tbody id="jo" style='white-space:pre;'>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock row_content %}
+{% block script %}
+<script>
+    var a=document.getElementById('jo');
+    //alert({{total_len}});
+    let total_len={{total_len}};
+    let job={{job|tojson}};
+    let needed={{needed}};
+    let seat={{seat}};
+    let total_seats={{total_seats}};
+
+    let pointer_=0;
+    let Htmltext=' ';
+    for (let i=0;i<total_len;i++)
+    {
+        Htmltext+='<tr><td>';
+        Htmltext+=job[i];
+        Htmltext+='</td>';
+        Htmltext+='<td>';
+        if (needed[i]==-1)
+        //    needed[i]=total_seats-pointer;
+            needed[i]=total_seats-pointer_;
+        for(var j=pointer_;j<pointer_+needed[i];j++)
+        {
+            Htmltext+= (seat[j]+'  ');
+        }
+        //alert(j);
+        pointer_=j;
+        Htmltext+='</td>';
+        Htmltext+='</tr>';
+    }
+    a.innerHTML=Htmltext;
+</script>
+{% endblock script %}
